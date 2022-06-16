@@ -22,7 +22,8 @@ function preload () {
 
     game.load.baseURL = 'https://x7852398521.github.io/NS-Shaft/assets/';
     game.load.crossOrigin = 'anonymous';
-    game.load.spritesheet('player', 'player.png', 32, 32);
+    game.load.spritesheet('player1', 'player1.png', 32, 32);
+    game.load.spritesheet('player2', 'player2.png', 32, 32);
     game.load.image('wall', 'wall.png');
     game.load.image('ceiling', 'ceiling.png');
     game.load.image('normal', 'normal.png');
@@ -133,8 +134,8 @@ function createOnePlatform () {
 }
 
 function createPlayer () {
-    player1 = game.add.sprite(300, 50, 'player');
-    player2 = game.add.sprite(100, 50, 'player');
+    player1 = game.add.sprite(300, 50, 'player1');
+    player2 = game.add.sprite(100, 50, 'player2');
 
     setPlayerAttr(player1);
     setPlayerAttr(player2);
