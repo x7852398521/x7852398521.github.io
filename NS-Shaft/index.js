@@ -25,7 +25,7 @@ function preload () {
 	// baseURL載入資源的來源
     game.load.baseURL = 'https://x7852398521.github.io/NS-Shaft/assets/';
     game.load.crossOrigin = 'anonymous';
-	// spritesheet與image差異，在於spritesheet包含很多個分別的圖片，有助於減少儲存空間
+	// spritesheet與image差異，在於spritesheet包含很多個分別的圖片，有助於減少儲存空間，32, 32 就是裁切的長和寬，編號是從 0 開始
     game.load.spritesheet('player1', 'player1.png', 32, 32);
     game.load.spritesheet('player2', 'player2.png', 32, 32);
     game.load.image('wall', 'wall.png');
@@ -67,6 +67,7 @@ function update () {
     if(status == 'gameOver' && keyboard.enter.isDown) restart();
     if(status != 'running') return;
 
+    // game.physics.arcade.collide(A, B) 會判斷 A,B 是否碰撞。接受陣列做為參數，以下程式會檢查玩家是否與左牆或右牆碰撞
     this.physics.arcade.collide([player1, player2], platforms, effect);
     this.physics.arcade.collide([player1, player2], [leftWall, rightWall]);
     this.physics.arcade.collide(player1, player2);
@@ -86,7 +87,7 @@ function createBounders () {
     leftWall = game.add.sprite(0, 0, 'wall');
     // game.physics.arcade.enable(物件) 掛載物理引擎，使物體具有移動、碰撞等狀態
     game.physics.arcade.enable(leftWall);
-    // 非移動物件
+    // 固定物件
     leftWall.body.immovable = true;
 
     rightWall = game.add.sprite(383, 0, 'wall');
@@ -98,6 +99,7 @@ function createBounders () {
 
 var lastTime = 0;
 function createPlatforms () {
+    // game.time.now 可以取得遊戲開始到現在的時間
     if(game.time.now > lastTime + 600) {
         lastTime = game.time.now;
         createOnePlatform();
@@ -108,6 +110,7 @@ function createPlatforms () {
 function createOnePlatform () {
 
     var platform;
+    // 執行 Math.random() 會產生0~1的隨機數字
     var x = Math.random()*(400 - 96 - 40) + 20;
     var y = 400;
     var rand = Math.random() * 100;
@@ -117,10 +120,13 @@ function createOnePlatform () {
     } else if (rand < 40) {
         platform = game.add.sprite(x, y, 'nails');
         game.physics.arcade.enable(platform);
+        // 修改圖片碰撞的邊界，sprite.body.setSize(長, 寬, x座標, y座標)
         platform.body.setSize(96, 15, 0, 15);
     } else if (rand < 50) {
         platform = game.add.sprite(x, y, 'conveyorLeft');
+        // 幫角色增加動畫，Sprite.animations.add(動畫名字, 影格, 每秒幀數, 持續播放動畫)
         platform.animations.add('scroll', [0, 1, 2, 3], 16, true);
+        // 播放動畫 Sprite.play(動畫名字)
         platform.play('scroll');
     } else if (rand < 60) {
         platform = game.add.sprite(x, y, 'conveyorRight');
@@ -129,6 +135,7 @@ function createOnePlatform () {
     } else if (rand < 80) {
         platform = game.add.sprite(x, y, 'trampoline');
         platform.animations.add('jump', [4, 5, 4, 3, 2, 1, 0, 1, 2, 3], 120);
+        // 設定外觀為圖片編號 3 的部分
         platform.frame = 3;
     } else {
         platform = game.add.sprite(x, y, 'fake');
@@ -139,6 +146,7 @@ function createOnePlatform () {
     platform.body.immovable = true;
     platforms.push(platform);
 
+    //取消左邊、右邊、下邊的碰撞。增加以下語法接到創造 platform 程式後面，角色彈跳時就不會撞到上面的平台
     platform.body.checkCollision.down = false;
     platform.body.checkCollision.left = false;
     platform.body.checkCollision.right = false;
@@ -156,19 +164,24 @@ function createPlayer () {
 function setPlayerAttr(player) {
     // game.physics.arcade.enable(物件) 掛載物理引擎，使物體具有移動、碰撞等狀態
     game.physics.arcade.enable(player);
+    // 玩家引力
     player.body.gravity.y = 500;
+    // 幫角色增加動畫，Sprite.animations.add(動畫名字, 影格, 每秒幀數, 持續播放動畫)
     player.animations.add('left', [0, 1, 2, 3], 8);
     player.animations.add('right', [9, 10, 11, 12], 8);
     player.animations.add('flyleft', [18, 19, 20, 21], 12);
     player.animations.add('flyright', [27, 28, 29, 30], 12);
     player.animations.add('fly', [36, 37, 38, 39], 12);
     player.life = 10;
+    // unbeatableTime 角色無敵狀態的時間
     player.unbeatableTime = 0;
+    // touchOn 紀錄碰撞的物體，防止重複觸法事件
     player.touchOn = undefined;
 }
 
 function createTextsBoard () {
     var style = {fill: '#ff0000', fontSize: '20px'}
+    // 創造文字物件，game.add.text(x座標, y座標, 文字內容);
     text1 = game.add.text(10, 10, '', style);
     text2 = game.add.text(350, 10, '', style);
     text3 = game.add.text(140, 200, '', style);
@@ -205,6 +218,7 @@ function setPlayerAnimate(player) {
     var y = player.body.velocity.y;
 
     if (x < 0 && y > 0) {
+        // 播放動畫 Sprite.play(動畫名字)
         player.animations.play('flyleft');
     }
     if (x > 0 && y > 0) {
@@ -220,7 +234,8 @@ function setPlayerAnimate(player) {
         player.animations.play('fly');
     }
     if (x == 0 && y == 0) {
-      player.frame = 8;
+        // 設定外觀為圖片編號 1 的部分
+        player.frame = 8;
     }
 }
 
@@ -229,7 +244,9 @@ function updatePlatforms () {
         var platform = platforms[i];
         platform.body.position.y -= 2;
         if(platform.body.position.y <= -20) {
+            // 銷毀 platform 物件
             platform.destroy();
+            // 從陣列移除第 i 個平台
             platforms.splice(i, 1);
         }
     }
@@ -241,6 +258,7 @@ function updateTextsBoard () {
 }
 
 function effect(player, platform) {
+    // platform.key 會是 sprite 的圖片名字
     if(platform.key == 'conveyorRight') {
         conveyorRightEffect(player, platform);
     }
@@ -271,20 +289,25 @@ function conveyorLeftEffect(player, platform) {
 }
 
 function trampolineEffect(player, platform) {
+    // 播放動畫 Sprite.play(動畫名字)
     platform.animations.play('jump');
     // 設定速度，每秒垂直移動
     player.body.velocity.y = -350;
 }
 
 function nailsEffect(player, platform) {
+    // touchOn 紀錄碰撞的物體
     if (player.touchOn !== platform) {
+        // 扣生命
         player.life -= 3;
         player.touchOn = platform;
+        // 背景閃爍，game.camera.flash(顏色色碼, 時間)
         game.camera.flash(0xff0000, 100);
     }
 }
 
 function basicEffect(player, platform) {
+    // touchOn 紀錄碰撞的物體
     if (player.touchOn !== platform) {
         if(player.life < 10) {
             player.life += 1;
@@ -294,8 +317,11 @@ function basicEffect(player, platform) {
 }
 
 function fakeEffect(player, platform) {
+    // touchOn 紀錄碰撞的物體
     if(player.touchOn !== platform) {
+        // 播放動畫 Sprite.play(動畫名字)
         platform.animations.play('turn');
+        // 延遲執行函式，setTimeout(執行的函式, 延遲時間ms)
         setTimeout(function() {
             platform.body.checkCollision.up = false;
         }, 100);
@@ -309,9 +335,12 @@ function checkTouchCeiling(player) {
             // 設定速度，每秒垂直移動
             player.body.velocity.y = 0;
         }
+        // game.time.now 可以取得遊戲開始到現在的時間
         if(game.time.now > player.unbeatableTime) {
             player.life -= 3;
+            // 背景閃爍，game.camera.flash(顏色色碼, 時間)
             game.camera.flash(0xff0000, 100);
+            // unbeatableTime 角色無敵狀態的時間
             player.unbeatableTime = game.time.now + 2000;
         }
     }
@@ -329,6 +358,7 @@ function checkGameOver () {
 function gameOver(winner) {
     text3.visible = true;
     text3.setText('勝利者 ' + winner + '\nEnter 重新開始');
+    // destroy 銷毀 platform 物件
     platforms.forEach(function(s) {s.destroy()});
     platforms = [];
     status = 'gameOver';
