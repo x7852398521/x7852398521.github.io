@@ -1,3 +1,5 @@
+// 創造長寬400*400的畫面，Phaser.AUTO代表使用預設的繪圖方式，''是告訴畫面放在網頁的哪個部分
+// preload載入素材(圖片、聲音)，create遊戲一開始初始化動作，只會執行一次，update在遊戲進行中，會不斷的執行
 var game = new Phaser.Game(400, 400, Phaser.AUTO, '',
     { preload: preload, create: create, update: update });
 
@@ -18,10 +20,12 @@ var text3;
 var distance = 0;
 var status = 'running';
 
+// preload載入素材(圖片、聲音)
 function preload () {
-
+	// baseURL載入資源的來源
     game.load.baseURL = 'https://x7852398521.github.io/NS-Shaft/assets/';
     game.load.crossOrigin = 'anonymous';
+	// spritesheet與image差異，在於spritesheet包含很多個分別的圖片，有助於減少儲存空間
     game.load.spritesheet('player1', 'player1.png', 32, 32);
     game.load.spritesheet('player2', 'player2.png', 32, 32);
     game.load.image('wall', 'wall.png');
@@ -34,8 +38,10 @@ function preload () {
     game.load.spritesheet('fake', 'fake.png', 96, 36);
 }
 
+// create遊戲一開始初始化動作，只會執行一次，update在遊戲進行中，會不斷的執行
 function create () {
 
+    // 鍵盤事件
     keyboard = game.input.keyboard.addKeys({
         'enter': Phaser.Keyboard.ENTER,
         'up': Phaser.Keyboard.UP,
@@ -53,9 +59,11 @@ function create () {
     createTextsBoard();
 }
 
+// update在遊戲進行中，會不斷的執行
 function update () {
 
     // bad
+    // 當ENTER被按下
     if(status == 'gameOver' && keyboard.enter.isDown) restart();
     if(status != 'running') return;
 
@@ -74,8 +82,11 @@ function update () {
 }
 
 function createBounders () {
+    // sprite為遊戲物件 game.add.sprite(x, y, 'image_name')
     leftWall = game.add.sprite(0, 0, 'wall');
+    // game.physics.arcade.enable(物件) 掛載物理引擎，使物體具有移動、碰撞等狀態
     game.physics.arcade.enable(leftWall);
+    // 非移動物件
     leftWall.body.immovable = true;
 
     rightWall = game.add.sprite(383, 0, 'wall');
@@ -134,6 +145,7 @@ function createOnePlatform () {
 }
 
 function createPlayer () {
+    // sprite為遊戲物件 game.add.sprite(x, y, 'image_name')
     player1 = game.add.sprite(300, 50, 'player1');
     player2 = game.add.sprite(100, 50, 'player2');
 
@@ -142,6 +154,7 @@ function createPlayer () {
 }
 
 function setPlayerAttr(player) {
+    // game.physics.arcade.enable(物件) 掛載物理引擎，使物體具有移動、碰撞等狀態
     game.physics.arcade.enable(player);
     player.body.gravity.y = 500;
     player.animations.add('left', [0, 1, 2, 3], 8);
@@ -163,16 +176,20 @@ function createTextsBoard () {
 }
 
 function updatePlayer () {
+    // 當左鍵被按下
     if(keyboard.left.isDown) {
+        // 設定速度，每秒平行移動
         player1.body.velocity.x = -250;
+    // 當右鍵被按下
     } else if(keyboard.right.isDown) {
         player1.body.velocity.x = 250;
     } else {
         player1.body.velocity.x = 0;
     }
-
+    // 當a鍵被按下
     if(keyboard.a.isDown) {
         player2.body.velocity.x = -250;
+    // 當d鍵被按下
     } else if(keyboard.d.isDown) {
         player2.body.velocity.x = 250;
     } else {
@@ -183,6 +200,7 @@ function updatePlayer () {
 }
 
 function setPlayerAnimate(player) {
+    // 速度
     var x = player.body.velocity.x;
     var y = player.body.velocity.y;
 
@@ -244,6 +262,7 @@ function effect(player, platform) {
 }
 
 function conveyorRightEffect(player, platform) {
+    // 平行移動，物件.body.x(取得當前物件的x軸位置)，物件.body.x=數字(設定物件座標)
     player.body.x += 2;
 }
 
@@ -253,6 +272,7 @@ function conveyorLeftEffect(player, platform) {
 
 function trampolineEffect(player, platform) {
     platform.animations.play('jump');
+    // 設定速度，每秒垂直移動
     player.body.velocity.y = -350;
 }
 
@@ -286,6 +306,7 @@ function fakeEffect(player, platform) {
 function checkTouchCeiling(player) {
     if(player.body.y < 0) {
         if(player.body.velocity.y < 0) {
+            // 設定速度，每秒垂直移動
             player.body.velocity.y = 0;
         }
         if(game.time.now > player.unbeatableTime) {
