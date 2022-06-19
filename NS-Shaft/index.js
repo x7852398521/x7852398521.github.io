@@ -220,7 +220,7 @@ function createTextsBoard () {
     text3 = game.add.text(140, 250, 'Enter 重新開始', style);
     text3.visible = false;
     
-    life = game.add.image(25, 15, 'life');
+    life = game.add.image(25, 20, 'life');
 }
 
 function updatePlayer () {
