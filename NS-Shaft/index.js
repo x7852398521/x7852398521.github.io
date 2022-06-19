@@ -38,7 +38,7 @@ function preload () {
     game.load.image('ceiling', 'ceiling.png');
     game.load.image('normal', 'normal.png');
     game.load.image('nails', 'nails.png');
-    game.load.image('life', 'life.png');
+    game.load.image('life', 'life2.png');
     game.load.spritesheet('conveyorRight', 'conveyor_right.png', 96, 16);
     game.load.spritesheet('conveyorLeft', 'conveyor_left.png', 96, 16);
     game.load.spritesheet('trampoline', 'trampoline.png', 96, 22);
