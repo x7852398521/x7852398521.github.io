@@ -11,6 +11,8 @@ var platforms = [];
 
 var leftWall;
 var rightWall;
+var leftWall2;
+var rightWall2;
 var ceiling;
 
 var text1;
@@ -95,9 +97,18 @@ function createBounders () {
     // 固定物件
     leftWall.body.immovable = true;
 
+    leftWall2 = game.add.sprite(0, 400, 'wall');
+    game.physics.arcade.enable(leftWall2);
+    leftWall2.body.immovable = true;
+
     rightWall = game.add.sprite(383, 0, 'wall');
     game.physics.arcade.enable(rightWall);
     rightWall.body.immovable = true;
+
+    rightWall2 = game.add.sprite(383, 0, 'wall');
+    game.physics.arcade.enable(rightWall2);
+    rightWall2.body.immovable = true;
+
 }
 
 var lastTime = 0;
