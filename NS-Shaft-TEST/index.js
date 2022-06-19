@@ -31,7 +31,7 @@ function preload () {
 	// spritesheet與image差異，在於spritesheet包含很多個分別的圖片，有助於減少儲存空間，32, 32 就是裁切的長和寬，編號是從 0 開始
     game.load.spritesheet('player1', 'player1.png', 32, 32);
     game.load.spritesheet('player2', 'player2.png', 32, 32);
-    game.load.image('wall', 'wall1.png');
+    game.load.image('wall', 'wall.png');
     game.load.image('ceiling', 'ceiling.png');
     game.load.image('normal', 'normal.png');
     game.load.image('nails', 'nails.png');
@@ -89,13 +89,13 @@ function createBounders () {
     ceiling = game.add.image(0, 50, 'ceiling');
 
     // sprite為遊戲物件 game.add.sprite(x, y, 'image_name')
-    leftWall = game.add.sprite(0, 0, 'wall');
+    leftWall = game.add.sprite(0, 50, 'wall');
     // game.physics.arcade.enable(物件) 掛載物理引擎，使物體具有移動、碰撞等狀態
     game.physics.arcade.enable(leftWall);
     // 固定物件
     leftWall.body.immovable = true;
 
-    rightWall = game.add.sprite(383, 0, 'wall');
+    rightWall = game.add.sprite(383, 50, 'wall');
     game.physics.arcade.enable(rightWall);
     rightWall.body.immovable = true;
 }
