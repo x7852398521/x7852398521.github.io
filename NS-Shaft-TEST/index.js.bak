@@ -11,8 +11,6 @@ var platforms = [];
 
 var leftWall;
 var rightWall;
-var leftWall2;
-var rightWall2;
 var ceiling;
 
 var text1;
@@ -20,9 +18,8 @@ var text2;
 var text3;
 
 var distance = 0;
-var status = 'start';
+var status = 'running';
 
-var lastTime = 0;
 var starttime = 0;
 var endtime = 0;
 
@@ -38,7 +35,6 @@ function preload () {
     game.load.image('ceiling', 'ceiling.png');
     game.load.image('normal', 'normal.png');
     game.load.image('nails', 'nails.png');
-    game.load.image('life', 'life.png');
     game.load.spritesheet('conveyorRight', 'conveyor_right.png', 96, 16);
     game.load.spritesheet('conveyorLeft', 'conveyor_left.png', 96, 16);
     game.load.spritesheet('trampoline', 'trampoline.png', 96, 22);
@@ -64,7 +60,6 @@ function create () {
     createBounders();
     createPlayer();
     createTextsBoard();
-
 }
 
 // update在遊戲進行中，會不斷的執行
@@ -73,11 +68,11 @@ function update () {
     // bad
     // 當ENTER被按下
     if(status == 'gameOver' && keyboard.enter.isDown) restart();
-    // if(status != 'running') return;
+    if(status != 'running') return;
 
     // game.physics.arcade.collide(A, B) 會判斷 A,B 是否碰撞。接受陣列做為參數，以下程式會檢查玩家是否與左牆或右牆碰撞
     this.physics.arcade.collide([player1, player2], platforms, effect);
-    this.physics.arcade.collide([player1, player2], [leftWall, rightWall, leftWall2, rightWall2]);
+    this.physics.arcade.collide([player1, player2], [leftWall, rightWall]);
     this.physics.arcade.collide(player1, player2);
     checkTouchCeiling(player1);
     checkTouchCeiling(player2);
@@ -94,34 +89,26 @@ function createBounders () {
     ceiling = game.add.image(0, 50, 'ceiling');
 
     // sprite為遊戲物件 game.add.sprite(x, y, 'image_name')
-    leftWall = game.add.sprite(0, -50, 'wall');
+    leftWall = game.add.sprite(0, 50, 'wall');
     // game.physics.arcade.enable(物件) 掛載物理引擎，使物體具有移動、碰撞等狀態
     game.physics.arcade.enable(leftWall);
     // 固定物件
     leftWall.body.immovable = true;
 
-    leftWall2 = game.add.sprite(0, 349, 'wall');
-    game.physics.arcade.enable(leftWall2);
-    leftWall2.body.immovable = true;
-
-    rightWall = game.add.sprite(383, -50, 'wall');
+    rightWall = game.add.sprite(383, 50, 'wall');
     game.physics.arcade.enable(rightWall);
     rightWall.body.immovable = true;
-
-    rightWall2 = game.add.sprite(383, 349, 'wall');
-    game.physics.arcade.enable(rightWall2);
-    rightWall2.body.immovable = true;
-
 }
 
+var lastTime = 0;
+var curTime = 0;
 function createPlatforms () {
     // game.time.now 可以取得遊戲開始到現在的時間
-    if (status == 'start' || game.time.now == starttime)  {
+    if (game.time.now == starttime)  {
         initialPlatform(200);
         initialPlatform(250);
         initialPlatform(300);
         initialPlatform(350);
-        status = 'running'
     }
     if(game.time.now > lastTime + 600) {
         lastTime = game.time.now;
@@ -219,8 +206,6 @@ function createTextsBoard () {
     text2 = game.add.text(350, 60, '', style);
     text3 = game.add.text(140, 250, 'Enter 重新開始', style);
     text3.visible = false;
-    
-    life = game.add.image(25, 0, 'life');
 }
 
 function updatePlayer () {

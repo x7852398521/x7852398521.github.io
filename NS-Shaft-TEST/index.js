@@ -1,6 +1,6 @@
 // 創造長寬400*400的畫面，Phaser.AUTO代表使用預設的繪圖方式，''是告訴畫面放在網頁的哪個部分
 // preload載入素材(圖片、聲音)，create遊戲一開始初始化動作，只會執行一次，update在遊戲進行中，會不斷的執行
-var game = new Phaser.Game(400, 450, Phaser.AUTO, '',
+var game = new Phaser.Game(400, 400, Phaser.AUTO, '',
     { preload: preload, create: create, update: update });
 
 var player1;
@@ -86,16 +86,16 @@ function update () {
 }
 
 function createBounders () {
-    ceiling = game.add.image(0, 50, 'ceiling');
+    ceiling = game.add.image(0, 0, 'ceiling');
 
     // sprite為遊戲物件 game.add.sprite(x, y, 'image_name')
-    leftWall = game.add.sprite(0, 50, 'wall');
+    leftWall = game.add.sprite(0, 0, 'wall');
     // game.physics.arcade.enable(物件) 掛載物理引擎，使物體具有移動、碰撞等狀態
     game.physics.arcade.enable(leftWall);
     // 固定物件
     leftWall.body.immovable = true;
 
-    rightWall = game.add.sprite(383, 50, 'wall');
+    rightWall = game.add.sprite(383, 0, 'wall');
     game.physics.arcade.enable(rightWall);
     rightWall.body.immovable = true;
 }
@@ -105,10 +105,10 @@ var curTime = 0;
 function createPlatforms () {
     // game.time.now 可以取得遊戲開始到現在的時間
     if (game.time.now == starttime)  {
+        initialPlatform(150);
         initialPlatform(200);
         initialPlatform(250);
         initialPlatform(300);
-        initialPlatform(350);
     }
     if(game.time.now > lastTime + 600) {
         lastTime = game.time.now;
@@ -132,7 +132,7 @@ function createOnePlatform () {
     var platform;
     // 執行 Math.random() 會產生0~1的隨機數字
     var x = Math.random()*(400 - 96 - 40) + 20;
-    var y = 450;
+    var y = 400;
     var rand = Math.random() * 100;
 
     if(rand < 20) {
@@ -174,8 +174,8 @@ function createOnePlatform () {
 
 function createPlayer () {
     // sprite為遊戲物件 game.add.sprite(x, y, 'image_name')
-    player1 = game.add.sprite(300, 100, 'player1');
-    player2 = game.add.sprite(100, 100, 'player2');
+    player1 = game.add.sprite(300, 50, 'player1');
+    player2 = game.add.sprite(100, 50, 'player2');
 
     setPlayerAttr(player1);
     setPlayerAttr(player2);
@@ -202,9 +202,9 @@ function setPlayerAttr(player) {
 function createTextsBoard () {
     var style = {fill: '#ff0000', fontSize: '20px'}
     // 創造文字物件，game.add.text(x座標, y座標, 文字內容);
-    text1 = game.add.text(10, 60, '', style);
-    text2 = game.add.text(350, 60, '', style);
-    text3 = game.add.text(140, 250, 'Enter 重新開始', style);
+    text1 = game.add.text(10, 10, '', style);
+    text2 = game.add.text(350, 10, '', style);
+    text3 = game.add.text(140, 200, 'Enter 重新開始', style);
     text3.visible = false;
 }
 
@@ -350,7 +350,7 @@ function fakeEffect(player, platform) {
 }
 
 function checkTouchCeiling(player) {
-    if(player.body.y < 50) {
+    if(player.body.y < 0) {
         if(player.body.velocity.y < 0) {
             // 設定速度，每秒垂直移動
             player.body.velocity.y = 0;
@@ -367,12 +367,12 @@ function checkTouchCeiling(player) {
 }
 
 function checkGameOver () {
-    if(player1.life <= 0 || player1.body.y > 550) {
+    if(player1.life <= 0 || player1.body.y > 500) {
         player1.visible = false
         player2.visible = false
         gameOver('player2');
     }
-    if(player2.life <= 0 || player2.body.y > 550) {
+    if(player2.life <= 0 || player2.body.y > 500) {
         player1.visible = false
         player2.visible = false
         gameOver('player1');
