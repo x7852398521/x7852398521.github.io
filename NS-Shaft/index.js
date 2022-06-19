@@ -207,8 +207,6 @@ function setPlayerAttr(player) {
     player.animations.add('fly', [36, 37, 38, 39], 12);
     player.life = 12;
 
-    life = game.add.sprite(25, 23, 'life');
-    life.frame = player.life;
     
     // unbeatableTime 角色無敵狀態的時間
     player.unbeatableTime = 0;
@@ -223,6 +221,9 @@ function createTextsBoard () {
     text2 = game.add.text(350, 60, '', style);
     text3 = game.add.text(140, 250, 'Enter 重新開始', style);
     text3.visible = false;
+
+    life = game.add.sprite(25, 23, 'life');
+    life.frame = 12;
 }
 
 function updatePlayer () {
