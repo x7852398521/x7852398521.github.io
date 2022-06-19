@@ -34,7 +34,7 @@ function preload () {
 	// spritesheet與image差異，在於spritesheet包含很多個分別的圖片，有助於減少儲存空間，32, 32 就是裁切的長和寬，編號是從 0 開始
     game.load.spritesheet('player1', 'player1.png', 32, 32);
     game.load.spritesheet('player2', 'player2.png', 32, 32);
-    game.load.spritesheet('life', 'life.png', 120, 20);
+    game.load.spritesheet('life', 'life.png', 120, 20.15);
     game.load.image('wall', 'wall.png');
     game.load.image('ceiling', 'ceiling.png');
     game.load.image('normal', 'normal.png');
@@ -205,7 +205,11 @@ function setPlayerAttr(player) {
     player.animations.add('flyleft', [18, 19, 20, 21], 12);
     player.animations.add('flyright', [27, 28, 29, 30], 12);
     player.animations.add('fly', [36, 37, 38, 39], 12);
-    player.life = 10;
+    player.life = 12;
+
+    life = game.add.sprite(25, 23, 'life');
+    life.frame = player.life;
+    
     // unbeatableTime 角色無敵狀態的時間
     player.unbeatableTime = 0;
     // touchOn 紀錄碰撞的物體，防止重複觸法事件
@@ -219,8 +223,6 @@ function createTextsBoard () {
     text2 = game.add.text(350, 60, '', style);
     text3 = game.add.text(140, 250, 'Enter 重新開始', style);
     text3.visible = false;
-    
-    life = game.add.image(25, 23, 'life');
 }
 
 function updatePlayer () {
@@ -336,6 +338,7 @@ function nailsEffect(player, platform) {
         // 扣生命
         player.life -= 3;
         player.touchOn = platform;
+        life.frame = player.life;
         // 背景閃爍，game.camera.flash(顏色色碼, 時間)
         game.camera.flash(0xff0000, 100);
     }
@@ -346,6 +349,7 @@ function basicEffect(player, platform) {
     if (player.touchOn !== platform) {
         if(player.life < 10) {
             player.life += 1;
+            life.frame = player.life;
         }
         player.touchOn = platform;
     }
@@ -373,6 +377,7 @@ function checkTouchCeiling(player) {
         // game.time.now 可以取得遊戲開始到現在的時間
         if(game.time.now > player.unbeatableTime) {
             player.life -= 3;
+            life.frame = player.life;
             // 背景閃爍，game.camera.flash(顏色色碼, 時間)
             game.camera.flash(0xff0000, 100);
             // unbeatableTime 角色無敵狀態的時間
