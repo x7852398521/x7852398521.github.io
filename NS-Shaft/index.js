@@ -34,7 +34,7 @@ function preload () {
 	// spritesheet與image差異，在於spritesheet包含很多個分別的圖片，有助於減少儲存空間，32, 32 就是裁切的長和寬，編號是從 0 開始
     game.load.spritesheet('player1', 'player1.png', 32, 32);
     game.load.spritesheet('player2', 'player2.png', 32, 32);
-    game.load.spritesheet('life', 'life.png', 120, 20.15);
+    game.load.spritesheet('life', 'life.png', 120, 20);
     game.load.image('wall', 'wall.png');
     game.load.image('ceiling', 'ceiling.png');
     game.load.image('normal', 'normal.png');
