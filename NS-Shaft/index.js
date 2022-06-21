@@ -222,8 +222,10 @@ function createTextsBoard () {
     text3 = game.add.text(140, 250, 'Enter 重新開始', style);
     text3.visible = false;
 
-    life = game.add.sprite(25, 23, 'life');
-    life.frame = 12;
+    life1 = game.add.sprite(25, 23, 'life');
+    life1.frame = 12;
+    life2 = game.add.sprite(255, 23, 'life');
+    life2.frame = 12;
 }
 
 function updatePlayer () {
@@ -293,6 +295,16 @@ function updatePlatforms () {
 function updateTextsBoard () {
     text1.setText('life:' + player1.life);
     text2.setText('life:' + player2.life);
+    if(player1.life < 0) {
+        life1.frame = 0;
+    } else {
+        life1.frame = player1.life;
+    }
+    if(player2.life < 0) {
+        life2.frame = 0;
+    } else {
+        life2.frame = player2.life;
+    }
 }
 
 function effect(player, platform) {
@@ -339,7 +351,6 @@ function nailsEffect(player, platform) {
         // 扣生命
         player.life -= 3;
         player.touchOn = platform;
-        life.frame = player.life;
         // 背景閃爍，game.camera.flash(顏色色碼, 時間)
         game.camera.flash(0xff0000, 100);
     }
@@ -350,7 +361,6 @@ function basicEffect(player, platform) {
     if (player.touchOn !== platform) {
         if(player.life < 10) {
             player.life += 1;
-            life.frame = player.life;
         }
         player.touchOn = platform;
     }
@@ -378,7 +388,6 @@ function checkTouchCeiling(player) {
         // game.time.now 可以取得遊戲開始到現在的時間
         if(game.time.now > player.unbeatableTime) {
             player.life -= 3;
-            life.frame = player.life;
             // 背景閃爍，game.camera.flash(顏色色碼, 時間)
             game.camera.flash(0xff0000, 100);
             // unbeatableTime 角色無敵狀態的時間
