@@ -39,6 +39,7 @@ function preload () {
     game.load.image('ceiling', 'ceiling.png');
     game.load.image('normal', 'normal.png');
     game.load.image('nails', 'nails.png');
+    game.load.image('black', 'black.png');
     game.load.spritesheet('conveyorRight', 'conveyor_right.png', 96, 16);
     game.load.spritesheet('conveyorLeft', 'conveyor_left.png', 96, 16);
     game.load.spritesheet('trampoline', 'trampoline.png', 96, 22);
@@ -112,6 +113,7 @@ function createBounders () {
     game.physics.arcade.enable(rightWall2);
     rightWall2.body.immovable = true;
 
+    black = game.add.image(0, 0, 'black');
 }
 
 function createPlatforms () {
