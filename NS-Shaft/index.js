@@ -16,8 +16,9 @@ var rightWall2;
 var ceiling;
 
 var text1;
-var text2;
-var text3;
+
+var life1;
+var life2;
 
 var distance = 0;
 var status = 'start';
@@ -64,7 +65,7 @@ function create () {
 
     createBounders();
     createPlayer();
-    createTextsBoard();
+    createLifeBoard();
 
 }
 
@@ -82,11 +83,12 @@ function update () {
     this.physics.arcade.collide(player1, player2);
     checkTouchCeiling(player1);
     checkTouchCeiling(player2);
+    updateLifeBoard();
     checkGameOver();
 
     updatePlayer();
     updatePlatforms();
-    updateTextsBoard();
+    
 
     createPlatforms();
 }
@@ -216,17 +218,15 @@ function setPlayerAttr(player) {
     player.touchOn = undefined;
 }
 
-function createTextsBoard () {
+function createLifeBoard () {
     var style = {fill: '#ff0000', fontSize: '20px'}
     // 創造文字物件，game.add.text(x座標, y座標, 文字內容);
-    text1 = game.add.text(10, 60, '', style);
-    text2 = game.add.text(350, 60, '', style);
-    text3 = game.add.text(140, 250, 'Enter 重新開始', style);
-    text3.visible = false;
+    text1 = game.add.text(140, 250, 'Enter 重新開始', style);
+    text1.visible = false;
 
-    life1 = game.add.sprite(25, 23, 'life');
+    life1 = game.add.sprite(255, 23, 'life');
     life1.frame = 12;
-    life2 = game.add.sprite(255, 23, 'life');
+    life2 = game.add.sprite(25, 23, 'life');
     life2.frame = 12;
 }
 
@@ -294,9 +294,7 @@ function updatePlatforms () {
     }
 }
 
-function updateTextsBoard () {
-    text1.setText('life:' + player1.life);
-    text2.setText('life:' + player2.life);
+function updateLifeBoard () {
     if(player1.life < 0) {
         life1.frame = 0;
     } else {
@@ -349,7 +347,7 @@ function trampolineEffect(player, platform) {
 
 function nailsEffect(player, platform) {
     // touchOn 紀錄碰撞的物體
-    if (player.touchOn !== platform) {
+    if (player.touchOn !== platform && status == 'running') {
         // 扣生命
         player.life -= 3;
         player.touchOn = platform;
@@ -388,7 +386,7 @@ function checkTouchCeiling(player) {
             player.body.velocity.y = 0;
         }
         // game.time.now 可以取得遊戲開始到現在的時間
-        if(game.time.now > player.unbeatableTime) {
+        if(game.time.now > player.unbeatableTime && status == 'running') {
             player.life -= 3;
             // 背景閃爍，game.camera.flash(顏色色碼, 時間)
             game.camera.flash(0xff0000, 100);
@@ -400,20 +398,22 @@ function checkTouchCeiling(player) {
 
 function checkGameOver () {
     if(player1.life <= 0 || player1.body.y > 550) {
-        player1.visible = false
-        player2.visible = false
+        life1.frame = 0;  // 沒作用???
+        player1.visible = false;
+        player2.visible = false;
         gameOver('player2');
     }
     if(player2.life <= 0 || player2.body.y > 550) {
-        player1.visible = false
-        player2.visible = false
+        life2.frame = 0; // 沒作用???
+        player1.visible = false;
+        player2.visible = false;
         gameOver('player1');
     }
 }
 
 function gameOver(winner) {
-    text3.visible = true;
-    text3.setText('勝利者 ' + winner + '\nEnter 重新開始');
+    text1.visible = true;
+    text1.setText('勝利者 ' + winner + '\nEnter 重新開始');
     // destroy 銷毀 platform 物件
     platforms.forEach(function(s) {s.destroy()});
     platforms = [];
@@ -422,7 +422,7 @@ function gameOver(winner) {
 }
 
 function restart () {
-    text3.visible = false;
+    text1.visible = false;
     distance = 0;
     createPlayer();
     status = 'running';
