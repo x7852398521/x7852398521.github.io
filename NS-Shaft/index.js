@@ -149,7 +149,7 @@ function createBounders () {
     rightWall2.body.immovable = true;
 
     black = game.add.image(0, 0, 'black');
-    background = game.add.image(0, 0, 'background'); // x = 426.16  y = 471.17  遊戲左上角點 26.16, 71.17
+    // background = game.add.image(0, 0, 'background'); // x = 426.16  y = 471.17  遊戲左上角點 26.16, 71.17
 }
 
 function createPlatforms () {
