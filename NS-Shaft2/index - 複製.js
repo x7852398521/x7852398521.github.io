@@ -1,7 +1,7 @@
 // 創造長寬400*400的畫面，Phaser.AUTO代表使用預設的繪圖方式，''是告訴畫面放在網頁的哪個部分
 // preload載入素材(圖片、聲音)，create遊戲一開始初始化動作，只會執行一次，update在遊戲進行中，會不斷的執行
 var game = new Phaser.Game(400, 450, Phaser.AUTO, '',
-    { preload: preload, create: create, update: update });  // x + 26.16 , y + 21.17 (71.17-50)
+    { preload: preload, create: create, update: update });
 
 var player1;
 var player2;
@@ -18,7 +18,6 @@ var rightWall2;
 var ceiling;
 
 var text1;
-var beerscoreicon;
 var beerscore;
 var beertext;
 
@@ -65,7 +64,6 @@ function preload () {
     game.load.spritesheet('conveyorLeft', './assets/conveyor_left.png', 96, 16);
     game.load.spritesheet('trampoline', './assets/trampoline.png', 96, 22);
     game.load.spritesheet('fake', './assets/fake.png', 96, 36);
-
 }
 
 // create遊戲一開始初始化動作，只會執行一次，update在遊戲進行中，會不斷的執行
@@ -87,7 +85,7 @@ function create () {
     createBounders();
     createPlayer();
     createLifeBoard();
-    createBeerBoard();
+    // createBeerBoard();
 }
 
 // update在遊戲進行中，會不斷的執行
@@ -119,12 +117,7 @@ function update () {
     // 重疊判斷
     this.physics.arcade.overlap([player1, player2], beers, collectBeer);
     updateBeers();
-    black.bringToTop();
-    // background.bringToTop();
-    beerscoreicon.bringToTop();
-    beertext.bringToTop();
-    life1.bringToTop();
-    life2.bringToTop();
+    createBeerBoard();
 }
 
 function createBounders () {
@@ -150,7 +143,7 @@ function createBounders () {
     rightWall2.body.immovable = true;
 
     black = game.add.image(0, 0, 'black');
-    // background = game.add.image(0, 0, 'background'); // x = 426.16  y = 471.17  遊戲左上角點 26.16, 71.17
+    // background = game.add.image(0, 0, 'background');
 }
 
 function createPlatforms () {
@@ -313,7 +306,7 @@ function createLifeBoard () {
 
 function createBeerBoard () {
     // beerscore
-    beerscoreicon = game.add.image(170, 20, 'beer');
+    game.add.image(170, 20, 'beer');
     beerscore = 0;
     beertext = game.add.text(195, 20, 'X 0', {fontSize: '24px', fill: '#000'});
 
@@ -374,6 +367,9 @@ function updatePlatforms () {
     for(var i=0; i<platforms.length; i++) {
         var platform = platforms[i];
         platform.body.position.y -= 2;
+        // if (platform.body.position.y < 50) {
+        //     platform.visible = false;
+        // }
         if(platform.body.position.y <= -20) {
             // 銷毀 platform 物件
             platform.destroy();
