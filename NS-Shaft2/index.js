@@ -1,7 +1,7 @@
 // 創造長寬400*400的畫面，Phaser.AUTO代表使用預設的繪圖方式，''是告訴畫面放在網頁的哪個部分
 // preload載入素材(圖片、聲音)，create遊戲一開始初始化動作，只會執行一次，update在遊戲進行中，會不斷的執行
 var game = new Phaser.Game(613, 492, Phaser.AUTO, '',
-    { preload: preload, create: create, update: update });  // x + 26 , y + 20.3 (70.3-50)
+    { preload: preload, create: create, update: update });
 
 var player1;
 var player2;
@@ -35,36 +35,36 @@ var endtime = 0;
 // preload載入素材(圖片、聲音)
 function preload () {
 	// // baseURL載入資源的來源
-    game.load.baseURL = 'https://x7852398521.github.io/NS-Shaft/assets/';
-    game.load.crossOrigin = 'anonymous';
+    // game.load.baseURL = 'https://x7852398521.github.io/NS-Shaft/assets/';
+    // game.load.crossOrigin = 'anonymous';
 	// spritesheet與image差異，在於spritesheet包含很多個分別的圖片，有助於減少儲存空間，32, 32 就是裁切的長和寬，編號是從 0 開始
-    game.load.spritesheet('player1', 'player1.png', 32, 32);
-    game.load.spritesheet('player2', 'player2.png', 32, 32);
-    game.load.spritesheet('life', 'life.png', 120, 20);
-    game.load.image('wall', 'wall.png');
-    game.load.image('ceiling', 'ceiling.png');
-    game.load.image('normal', 'normal.png');
-    game.load.image('nails', 'nails.png');
-    game.load.image('background', 'background.png');
-    game.load.image('beer', 'beer.png');
-    game.load.spritesheet('conveyorRight', 'conveyor_right.png', 96, 16);
-    game.load.spritesheet('conveyorLeft', 'conveyor_left.png', 96, 16);
-    game.load.spritesheet('trampoline', 'trampoline.png', 96, 22);
-    game.load.spritesheet('fake', 'fake.png', 96, 36);
+    // game.load.spritesheet('player1', 'player1.png', 32, 32);
+    // game.load.spritesheet('player2', 'player2.png', 32, 32);
+    // game.load.spritesheet('life', 'life.png', 120, 20);
+    // game.load.image('wall', 'wall.png');
+    // game.load.image('ceiling', 'ceiling.png');
+    // game.load.image('normal', 'normal.png');
+    // game.load.image('nails', 'nails.png');
+    // game.load.image('background', 'background.png');
+    // game.load.image('beer', 'beer.png');
+    // game.load.spritesheet('conveyorRight', 'conveyor_right.png', 96, 16);
+    // game.load.spritesheet('conveyorLeft', 'conveyor_left.png', 96, 16);
+    // game.load.spritesheet('trampoline', 'trampoline.png', 96, 22);
+    // game.load.spritesheet('fake', 'fake.png', 96, 36);
 
-    // game.load.spritesheet('player1', './assets/player1.png', 32, 32);
-    // game.load.spritesheet('player2', './assets/player2.png', 32, 32);
-    // game.load.spritesheet('life', './assets/life.png', 120, 20);
-    // game.load.image('wall', './assets/wall.png');
-    // game.load.image('ceiling', './assets/ceiling.png');
-    // game.load.image('normal', './assets/normal.png');
-    // game.load.image('nails', './assets/nails.png');
-    // game.load.image('background', './assets/background.png');
-    // game.load.image('beer', './assets/beer.png');
-    // game.load.spritesheet('conveyorRight', './assets/conveyor_right.png', 96, 16);
-    // game.load.spritesheet('conveyorLeft', './assets/conveyor_left.png', 96, 16);
-    // game.load.spritesheet('trampoline', './assets/trampoline.png', 96, 22);
-    // game.load.spritesheet('fake', './assets/fake.png', 96, 36);
+    game.load.spritesheet('player1', './assets/player1.png', 32, 32);
+    game.load.spritesheet('player2', './assets/player2.png', 32, 32);
+    game.load.spritesheet('life', './assets/life.png', 120, 20);
+    game.load.image('wall', './assets/wall.png');
+    game.load.image('ceiling', './assets/ceiling.png');
+    game.load.image('normal', './assets/normal.png');
+    game.load.image('nails', './assets/nails.png');
+    game.load.image('background', './assets/background.png');
+    game.load.image('beer', './assets/beer.png');
+    game.load.spritesheet('conveyorRight', './assets/conveyor_right.png', 96, 16);
+    game.load.spritesheet('conveyorLeft', './assets/conveyor_left.png', 96, 16);
+    game.load.spritesheet('trampoline', './assets/trampoline.png', 96, 22);
+    game.load.spritesheet('fake', './assets/fake.png', 96, 36);
 
 }
 
@@ -92,8 +92,6 @@ function create () {
 
 // update在遊戲進行中，會不斷的執行
 function update () {
-
-    // bad
     // 當ENTER被按下
     if(status == 'gameOver' && keyboard.enter.isDown) restart();
     // if(status != 'running') return;
@@ -155,8 +153,11 @@ function createPlatforms () {
     // game.time.now 可以取得遊戲開始到現在的時間
     if (status == 'start' || game.time.now == starttime)  {
         initialPlatform(200);
+        initialPlatform(250);
         initialPlatform(300);
+        initialPlatform(350);
         initialPlatform(400);
+        initialPlatform(450);
         // initialPlatformtest(0, 500);
         // initialPlatformtest(100, 500);
         // initialPlatformtest(200, 500);
@@ -300,7 +301,7 @@ function setPlayerAttr(player) {
 function createLifeBoard () {
     var style = {fill: '#ff0000', fontSize: '20px'}
     // 創造文字物件，game.add.text(x座標, y座標, 文字內容);
-    text1 = game.add.text(166, 270.3, 'Enter 重新開始', style); // x+26 y+20.3
+    text1 = game.add.text(160, 240.3, 'Enter 重新開始', style); // x+26 y+20.3
     text1.visible = false;
 
     life1 = game.add.sprite(310, 39, 'life'); // x+26 y+20.3
@@ -311,7 +312,7 @@ function createLifeBoard () {
 
 function createBeerBoard () {
     // beerscore
-    beerscoreicon = game.add.image(185, 20, 'beer');
+    beerscoreicon = game.add.image(190, 19, 'beer');
     beerscoreicon.scale.setTo(1.5, 1.5);
     beerscore = 0;
     beertext = game.add.text(225, 25, 'X 0', {fontSize: '24px', fill: '#FF0000'});
@@ -458,10 +459,22 @@ function effectPlayer(playero, playerp) {
 function conveyorRightEffect(player, platform) {
     // 平行移動，物件.body.x(取得當前物件的x軸位置)，物件.body.x=數字(設定物件座標)
     player.body.x += 2;
+    if (player.touchOn !== platform) {
+        if(player.life < 10) {
+            player.life += 1;
+        }
+        player.touchOn = platform;
+    }
 }
 
 function conveyorLeftEffect(player, platform) {
     player.body.x -= 2;
+    if (player.touchOn !== platform) {
+        if(player.life < 10) {
+            player.life += 1;
+        }
+        player.touchOn = platform;
+    }
 }
 
 function trampolineEffect(player, platform) {
@@ -482,7 +495,7 @@ function nailsEffect(player, platform) {
     // touchOn 紀錄碰撞的物體
     if (player.touchOn !== platform && status == 'running') {
         // 扣生命
-        player.life -= 3;
+        player.life -= 2;
         player.touchOn = platform;
         // 背景閃爍，game.camera.flash(顏色色碼, 時間)
         game.camera.flash(0xff0000, 100);
@@ -520,7 +533,7 @@ function checkTouchCeiling(player) {
         }
         // game.time.now 可以取得遊戲開始到現在的時間
         if(game.time.now > player.unbeatableTime && status == 'running') {
-            player.life -= 3;
+            player.life -= 2;
             // 背景閃爍，game.camera.flash(顏色色碼, 時間)
             game.camera.flash(0xff0000, 100);
             // unbeatableTime 角色無敵狀態的時間
