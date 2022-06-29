@@ -1,7 +1,7 @@
 // 創造長寬400*400的畫面，Phaser.AUTO代表使用預設的繪圖方式，''是告訴畫面放在網頁的哪個部分
 // preload載入素材(圖片、聲音)，create遊戲一開始初始化動作，只會執行一次，update在遊戲進行中，會不斷的執行
-var game = new Phaser.Game(400, 450, Phaser.AUTO, '',
-    { preload: preload, create: create, update: update });  // x + 26.16 , y + 21.17 (71.17-50)
+var game = new Phaser.Game(613, 492, Phaser.AUTO, '',
+    { preload: preload, create: create, update: update });
 
 var player1;
 var player2;
@@ -37,7 +37,7 @@ function preload () {
 	// // baseURL載入資源的來源
     // game.load.baseURL = 'https://x7852398521.github.io/NS-Shaft/assets/';
     // game.load.crossOrigin = 'anonymous';
-	// // spritesheet與image差異，在於spritesheet包含很多個分別的圖片，有助於減少儲存空間，32, 32 就是裁切的長和寬，編號是從 0 開始
+	// spritesheet與image差異，在於spritesheet包含很多個分別的圖片，有助於減少儲存空間，32, 32 就是裁切的長和寬，編號是從 0 開始
     // game.load.spritesheet('player1', 'player1.png', 32, 32);
     // game.load.spritesheet('player2', 'player2.png', 32, 32);
     // game.load.spritesheet('life', 'life.png', 120, 20);
@@ -45,7 +45,8 @@ function preload () {
     // game.load.image('ceiling', 'ceiling.png');
     // game.load.image('normal', 'normal.png');
     // game.load.image('nails', 'nails.png');
-    // game.load.image('black', 'black.png');
+    // game.load.image('background', 'background.png');
+    // game.load.image('beer', 'beer.png');
     // game.load.spritesheet('conveyorRight', 'conveyor_right.png', 96, 16);
     // game.load.spritesheet('conveyorLeft', 'conveyor_left.png', 96, 16);
     // game.load.spritesheet('trampoline', 'trampoline.png', 96, 22);
@@ -58,7 +59,6 @@ function preload () {
     game.load.image('ceiling', './assets/ceiling.png');
     game.load.image('normal', './assets/normal.png');
     game.load.image('nails', './assets/nails.png');
-    game.load.image('black', './assets/black.png');
     game.load.image('background', './assets/background.png');
     game.load.image('beer', './assets/beer.png');
     game.load.spritesheet('conveyorRight', './assets/conveyor_right.png', 96, 16);
@@ -92,19 +92,15 @@ function create () {
 
 // update在遊戲進行中，會不斷的執行
 function update () {
-
-    // bad
     // 當ENTER被按下
     if(status == 'gameOver' && keyboard.enter.isDown) restart();
     // if(status != 'running') return;
 
     // game.physics.arcade.collide(A, B) 會判斷 A,B 是否碰撞。接受陣列做為參數，以下程式會檢查玩家是否與左牆或右牆碰撞
     this.physics.arcade.collide([player1, player2], platforms, effect);
-    // this.physics.arcade.collide(); ////// 擺到前一行試試看
     // https://www.html5gamedevs.com/topic/28876-collision-make-sprites-immovable-and-impassable/
     this.physics.arcade.collide([player1, player2], [leftWall, rightWall, leftWall2, rightWall2]);
     this.physics.arcade.collide(player1, player2);
-    // this.physics.arcade.collide([player1, player2], [player1, player2], effectPlayer);  ////////// player1 player2不會互擠到外面
     checkTouchCeiling(player1);
     checkTouchCeiling(player2);
     updateLifeBoard();
@@ -119,8 +115,7 @@ function update () {
     // 重疊判斷
     this.physics.arcade.overlap([player1, player2], beers, collectBeer);
     updateBeers();
-    black.bringToTop();
-    // background.bringToTop();
+    background.bringToTop();
     beerscoreicon.bringToTop();
     beertext.bringToTop();
     life1.bringToTop();
@@ -128,37 +123,40 @@ function update () {
 }
 
 function createBounders () {
-    ceiling = game.add.image(0, 50, 'ceiling');
+    // 頂部尖刺，遊戲左上角點 26, 70.3
+    ceiling = game.add.image(26, 70.3, 'ceiling');
 
     // sprite為遊戲物件 game.add.sprite(x, y, 'image_name')
-    leftWall = game.add.sprite(0, -50, 'wall');
+    leftWall = game.add.sprite(26, -50, 'wall');
     // game.physics.arcade.enable(物件) 掛載物理引擎，使物體具有移動、碰撞等狀態
     game.physics.arcade.enable(leftWall);
     // 固定物件
     leftWall.body.immovable = true;
 
-    leftWall2 = game.add.sprite(0, 349, 'wall');
+    leftWall2 = game.add.sprite(26, 349, 'wall');
     game.physics.arcade.enable(leftWall2);
     leftWall2.body.immovable = true;
 
-    rightWall = game.add.sprite(383, -50, 'wall');
+    rightWall = game.add.sprite(409, -50, 'wall');
     game.physics.arcade.enable(rightWall);
     rightWall.body.immovable = true;
 
-    rightWall2 = game.add.sprite(383, 349, 'wall');
+    rightWall2 = game.add.sprite(409, 349, 'wall');
     game.physics.arcade.enable(rightWall2);
     rightWall2.body.immovable = true;
 
-    black = game.add.image(0, 0, 'black');
-    // background = game.add.image(0, 0, 'background'); // x = 426.16  y = 471.17  遊戲左上角點 26.16, 71.17
+    background = game.add.image(0, 0, 'background');
 }
 
 function createPlatforms () {
     // game.time.now 可以取得遊戲開始到現在的時間
     if (status == 'start' || game.time.now == starttime)  {
         initialPlatform(200);
+        initialPlatform(250);
         initialPlatform(300);
+        initialPlatform(350);
         initialPlatform(400);
+        initialPlatform(450);
         // initialPlatformtest(0, 500);
         // initialPlatformtest(100, 500);
         // initialPlatformtest(200, 500);
@@ -176,18 +174,13 @@ function createPlatforms () {
 function initialPlatform (y) {
     var platform;
     var beer;
-    var x = Math.random()*(400 - 96 - 40) + 20;
+    var x = Math.random()*(400 - 96 - 40) + 46;  // x+26
     var beerdisplay = Math.random();
     var beerhorizontal = x + Math.random() * 80;
-
-    // var y = Math.random()*200 + 150;
     platform = game.add.sprite(x, y, 'normal');
     game.physics.arcade.enable(platform);
     platform.body.immovable = true;
     platforms.push(platform);
-    // beer = game.add.sprite(x, y-50, 'beer');
-    // game.physics.arcade.enable(beer);
-    // beers.push(beer);
     if (beerdisplay > 0.5) {
         beer = game.add.sprite(beerhorizontal , y-50, 'beer');
         game.physics.arcade.enable(beer);
@@ -208,8 +201,8 @@ function createOnePlatform () {
     var platform;
     var beer;
     // 執行 Math.random() 會產生0~1的隨機數字
-    var x = Math.random()*(400 - 96 - 40) + 20;
-    var y = 450;
+    var x = Math.random()*(400 - 96 - 40) + 46; // x+26
+    var y = 470.3; // y+20.3
     var rand = Math.random() * 100;
     var beerdisplay = Math.random();
     var beerhorizontal = x + Math.random() * 80;
@@ -248,11 +241,9 @@ function createOnePlatform () {
             platform.animations.add('jump', [4, 5, 4, 3, 2, 1, 0, 1, 2, 3], 120);
             // 設定外觀為圖片編號 3 的部分
             platform.frame = 3;
-            // beer = game.add.sprite(x, y-50, 'beer');
         } else {
             platform = game.add.sprite(x, y, 'fake');
             platform.animations.add('turn', [0, 1, 2, 3, 4, 5, 0], 14);
-            // beer = game.add.sprite(x, y-50, 'beer');
         }
     
         game.physics.arcade.enable(platform);
@@ -272,9 +263,8 @@ function createOnePlatform () {
 
 function createPlayer () {
     // sprite為遊戲物件 game.add.sprite(x, y, 'image_name')
-    player1 = game.add.sprite(300, 100, 'player1');
-    player2 = game.add.sprite(100, 100, 'player2');
-
+    player1 = game.add.sprite(326, 120.3, 'player1');
+    player2 = game.add.sprite(126, 120.3, 'player2');
     setPlayerAttr(player1);
     setPlayerAttr(player2);
 }
@@ -300,22 +290,24 @@ function setPlayerAttr(player) {
 }
 
 function createLifeBoard () {
-    var style = {fill: '#ff0000', fontSize: '20px'}
+    // loadFont("serife", "./assets/fonts/serife.fon");
+    var style = {fill: '#FFFFFF', fontSize: '20px'} // font: "32px Arial"
     // 創造文字物件，game.add.text(x座標, y座標, 文字內容);
-    text1 = game.add.text(140, 250, 'Enter 重新開始', style);
+    text1 = game.add.text(160, 240.3, 'Enter 重新開始', style);
     text1.visible = false;
 
-    life1 = game.add.sprite(255, 23, 'life');
+    life1 = game.add.sprite(310, 39, 'life');
     life1.frame = 12;
-    life2 = game.add.sprite(25, 23, 'life');
+    life2 = game.add.sprite(20, 39, 'life');
     life2.frame = 12;
 }
 
 function createBeerBoard () {
-    // beerscore
-    beerscoreicon = game.add.image(170, 20, 'beer');
+    // 啤酒計分板
+    beerscoreicon = game.add.image(190, 19, 'beer');
+    beerscoreicon.scale.setTo(1.5, 1.5);
     beerscore = 0;
-    beertext = game.add.text(195, 20, 'X 0', {fontSize: '24px', fill: '#000'});
+    beertext = game.add.text(225, 25, 'X 0', {fontSize: '24px', fill: '#FF0000'});
 
 }
 
@@ -374,7 +366,7 @@ function updatePlatforms () {
     for(var i=0; i<platforms.length; i++) {
         var platform = platforms[i];
         platform.body.position.y -= 2;
-        if(platform.body.position.y <= -20) {
+        if(platform.body.position.y <= 50.3) { // x + 20.3
             // 銷毀 platform 物件
             platform.destroy();
             // 從陣列移除第 i 個平台
@@ -386,7 +378,7 @@ function updatePlatforms () {
 function updateBeers () {
     for(var i=0; i<beers.length; i++) {
         var beer = beers[i];
-        if(beer.body.position.y <= -20) {
+        if(beer.body.position.y <= 50.3) { // x + 20.3
             beer.kill();
         }
     }
@@ -407,7 +399,11 @@ function updateLifeBoard () {
 
 function collectBeer(player, beer) {
     beer.kill();
-    beerscore += 1;
+    if(beer.scale.x == 2){
+        beerscore += 2;
+    } else{
+        beerscore += 1;
+    }
     beertext.text = 'X ' + beerscore;
 }
 
@@ -433,32 +429,25 @@ function effect(player, platform) {
     }
 }
 
-function effectPlayer(playero, playerp) {
-    if (playero.body.position.x < 18){
-        playero.body.immovable = true;
-        playero.body.velocity.x = 0;
-    }
-    if (playero.body.position.x > 382){
-        playero.body.immovable = true;
-        playero.body.velocity.x = 0;
-    }
-    if (playerp.body.position.x < 18){
-        playerp.body.immovable = true;
-        playerp.body.velocity.x = 0;
-    }
-    if (playerp.body.position.x > 382){
-        playerp.body.immovable = true;
-        playerp.body.velocity.x = 0;
-    }
-}
-
 function conveyorRightEffect(player, platform) {
     // 平行移動，物件.body.x(取得當前物件的x軸位置)，物件.body.x=數字(設定物件座標)
     player.body.x += 2;
+    if (player.touchOn !== platform) {
+        if(player.life < 10) {
+            player.life += 1;
+        }
+        player.touchOn = platform;
+    }
 }
 
 function conveyorLeftEffect(player, platform) {
     player.body.x -= 2;
+    if (player.touchOn !== platform) {
+        if(player.life < 10) {
+            player.life += 1;
+        }
+        player.touchOn = platform;
+    }
 }
 
 function trampolineEffect(player, platform) {
@@ -466,13 +455,20 @@ function trampolineEffect(player, platform) {
     platform.animations.play('jump');
     // 設定速度，每秒垂直移動
     player.body.velocity.y = -350;
+    if (player.touchOn !== platform) {
+        if(player.life < 10) {
+            player.life += 1;
+        }
+        player.touchOn = platform;
+    }
+
 }
 
 function nailsEffect(player, platform) {
     // touchOn 紀錄碰撞的物體
     if (player.touchOn !== platform && status == 'running') {
         // 扣生命
-        player.life -= 3;
+        player.life -= 2;
         player.touchOn = platform;
         // 背景閃爍，game.camera.flash(顏色色碼, 時間)
         game.camera.flash(0xff0000, 100);
@@ -510,7 +506,7 @@ function checkTouchCeiling(player) {
         }
         // game.time.now 可以取得遊戲開始到現在的時間
         if(game.time.now > player.unbeatableTime && status == 'running') {
-            player.life -= 3;
+            player.life -= 2;
             // 背景閃爍，game.camera.flash(顏色色碼, 時間)
             game.camera.flash(0xff0000, 100);
             // unbeatableTime 角色無敵狀態的時間
@@ -520,13 +516,13 @@ function checkTouchCeiling(player) {
 }
 
 function checkGameOver () {
-    if(player1.life <= 0 || player1.body.y > 550) {
+    if(player1.life <= 0 || player1.body.y > 570.3) { // x+20.3
         life1.frame = 0;
         player1.visible = false;
         player2.visible = false;
         gameOver('player2');
     }
-    if(player2.life <= 0 || player2.body.y > 550) {
+    if(player2.life <= 0 || player2.body.y > 570.3) { // x+20.3
         life2.frame = 0;
         player1.visible = false;
         player2.visible = false;
