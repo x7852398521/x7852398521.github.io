@@ -1,3 +1,5 @@
+// phaser2 api doc https://phaser.io/docs/2.6.2/index
+// phaser3 api doc https://photonstorm.github.io/phaser3-docs/Phaser.ScaleModes.html https://newdocs.phaser.io/docs/3.55.2
 // 創造長寬400*400的畫面，Phaser.AUTO代表使用預設的繪圖方式，''是告訴畫面放在網頁的哪個部分
 // preload載入素材(圖片、聲音)，create遊戲一開始初始化動作，只會執行一次，update在遊戲進行中，會不斷的執行
 var game = new Phaser.Game(613, 492, Phaser.AUTO, '',
@@ -70,6 +72,15 @@ function preload () {
 
 // create遊戲一開始初始化動作，只會執行一次，update在遊戲進行中，會不斷的執行
 function create () {
+    
+    // 啟用後，顯示畫布將在父容器（或窗口）中水平對齊
+    game.scale.pageAlignHorizontally = true;
+    // 啟用後，顯示畫布將在父容器（或窗口）中垂直對齊
+    game.scale.pageAlignVertically = true;
+    // 畫面縮放比例模式
+    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    // 默認情況下，如果瀏覽器選項卡失去焦點，遊戲將暫停。您可以通過將此屬性設置為 true 來停止該行為
+    game.stage.disableVisibilityChange = true;
 
     // 鍵盤事件
     keyboard = game.input.keyboard.addKeys({
