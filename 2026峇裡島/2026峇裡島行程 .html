@@ -1,0 +1,324 @@
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 峇裡島 Bali 7天6夜 行程表</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f0f4f8;
+            scroll-behavior: smooth;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .day-card {
+            transition: transform 0.3s ease;
+        }
+
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .time-line::before {
+            display: none;
+        }
+
+        .timeline-item {
+            cursor: pointer;
+        }
+
+        .detail-box {
+            display: none;
+        }
+
+        .timeline-item.open .detail-box {
+            display: block;
+        }
+
+        .dot-icon {
+            font-size: 0.95rem;
+            line-height: 1;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="hero-gradient h-[40vh] flex items-center justify-center text-center text-white p-4">
+        <div>
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">2026 峇裡島 Bali 7天6夜</h1>
+            <p class="text-xl md:text-2xl font-light tracking-widest">2/14（六）- 2/20（五）</p>
+        </div>
+    </header>
+
+    <nav class="sticky-nav border-b shadow-sm overflow-x-auto whitespace-nowrap">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex space-x-4 md:justify-center">
+            <a href="#day1" class="px-4 py-2 rounded-full bg-blue-100 text-blue-600 font-medium hover:bg-blue-200 transition">Day 1</a>
+            <a href="#day2" class="px-4 py-2 rounded-full bg-blue-100 text-blue-600 font-medium hover:bg-blue-200 transition">Day 2</a>
+            <a href="#day3" class="px-4 py-2 rounded-full bg-blue-100 text-blue-600 font-medium hover:bg-blue-200 transition">Day 3</a>
+            <a href="#day4" class="px-4 py-2 rounded-full bg-blue-100 text-blue-600 font-medium hover:bg-blue-200 transition">Day 4</a>
+            <a href="#day5" class="px-4 py-2 rounded-full bg-blue-100 text-blue-600 font-medium hover:bg-blue-200 transition">Day 5</a>
+            <a href="#day6" class="px-4 py-2 rounded-full bg-blue-100 text-blue-600 font-medium hover:bg-blue-200 transition">Day 6</a>
+            <a href="#day7" class="px-4 py-2 rounded-full bg-blue-100 text-blue-600 font-medium hover:bg-blue-200 transition">Day 7</a>
+        </div>
+    </nav>
+
+    <section class="max-w-4xl mx-auto px-4 pt-4">
+        <div class="bg-white rounded-2xl shadow p-4 text-sm text-gray-600 grid grid-cols-2 md:grid-cols-4 gap-2">
+            <div><span class="inline-block w-3 h-3 rounded-full bg-sky-500 mr-2"></span>交通 Transport</div>
+            <div><span class="inline-block w-3 h-3 rounded-full bg-emerald-500 mr-2"></span>景點 Attraction</div>
+            <div><span class="inline-block w-3 h-3 rounded-full bg-yellow-500 mr-2"></span>餐飲 Food</div>
+            <div><span class="inline-block w-3 h-3 rounded-full bg-indigo-500 mr-2"></span>住宿 Hotel</div>
+        </div>
+    </section>
+
+    <main id="itinerary" class="max-w-4xl mx-auto p-4 md:p-8 space-y-12"></main>
+
+    <footer class="bg-gray-800 text-white py-12 px-6">
+        <div class="max-w-4xl mx-auto text-center space-y-4">
+            <h3 class="text-xl font-bold italic">Wish you a wonderful journey!</h3>
+            <div class="text-gray-400 text-sm grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-gray-700 pt-6">
+                <div>
+                    <i class="fa-solid fa-cloud-sun mb-2 text-xl"></i>
+                    <p>平均氣溫 27-30°C</p>
+                </div>
+                <div>
+                    <i class="fa-solid fa-wallet mb-2 text-xl"></i>
+                    <p>幣值：IDR 盧比</p>
+                </div>
+                <div>
+                    <i class="fa-solid fa-plug mb-2 text-xl"></i>
+                    <p>插頭：圓頭雙腳</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const dayHeaderStyle = {
+            1: 'bg-sky-600',
+            2: 'bg-teal-600',
+            3: 'bg-cyan-600',
+            4: 'bg-indigo-600',
+            5: 'bg-emerald-600',
+            6: 'bg-rose-600',
+            7: 'bg-slate-700'
+        };
+
+        const dayIcon = {
+            1: 'fa-plane-departure',
+            2: 'fa-umbrella-beach',
+            3: 'fa-sun',
+            4: 'fa-hotel',
+            5: 'fa-map-location-dot',
+            6: 'fa-bag-shopping',
+            7: 'fa-house-chimney'
+        };
+
+        const data = [
+            {
+                day: 1,
+                date: '2/14（六）',
+                subtitle: '啟程與放鬆',
+                events: [
+                    { time: '05:30', title: '出發前往機場 Airport Transfer', desc: 'Klook 接送（兩個點上車）', type: 'transport', icon: 'fa-car', address: '台灣桃園市 / Taoyuan, Taiwan（出發地）', phone: 'Klook App 訂單內客服', amount: 'NT1700', image: 'https://images.unsplash.com/photo-1511735111819-9a3f7709049c?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '10:00', title: '桃園機場 T2 起飛', desc: 'Taiwan Taoyuan International Airport T2 / 長榮 BR255', type: 'transport', icon: 'fa-plane', address: 'No. 9, Hangzhan S Rd, Dayuan District, Taoyuan City', phone: '+886 3 273 5086', image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '15:20', title: '抵達峇裡島 DPS T1', desc: 'Ngurah Rai International Airport / 辦理入境手續', type: 'transport', icon: 'fa-plane-arrival', address: 'Jl. Airport Ngurah Rai, Tuban, Kuta, Bali', phone: '+62 361 751011', amount: 'eVOA：NT975 / 人（IDR519K / 人）', image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Ngurah%20Rai%20Airport%20-%20Bali.jpg', realImage: true },
+                    { time: '16:00', title: '接機前往努沙杜瓦 Nusa Dua', desc: 'Klook 9人座（約30分鐘）', type: 'transport', icon: 'fa-van-shuttle', address: 'Nusa Dua, Bali, Indonesia', phone: 'Klook 司機資料以訂單為準', amount: 'NT564', image: 'https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '16:30', title: '峇里島地中海俱樂部 Club Med Bali Check-in', desc: '辦理入住並享用晚餐', type: 'hotel', icon: 'fa-hotel', address: 'Lot 6, Nusa Dua, Bali, Indonesia 80361', phone: '+62 361 771521', image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80' }
+                ]
+            },
+            {
+                day: 2,
+                date: '2/15（日）',
+                subtitle: '全包式度假',
+                events: [
+                    { time: '全日', title: '峇里島地中海俱樂部 Club Med Bali', desc: '享受村內設施（住客專屬）', type: 'hotel', icon: 'fa-hotel', address: 'Lot 6, Nusa Dua, Bali, Indonesia 80361', phone: '+62 361 771521', image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '活動', title: '村內活動 Activities', desc: '泳池 / 空中飛人 / 水上活動', type: 'relax', icon: 'fa-person-swimming', iconFixed: 'fa-location-dot', colorFixed: 'text-emerald-500', address: 'Club Med Bali 內部設施', phone: '+62 361 771521', image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '晚上', title: '渡假村晚間秀 Evening Show', desc: 'G.O. 表演，記得看節目表', type: 'relax', icon: 'fa-music', address: 'Club Med Bali Theater', phone: '+62 361 771521', image: 'https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80' }
+                ]
+            },
+            {
+                day: 3,
+                date: '2/16（一）',
+                subtitle: '陽光與沙灘',
+                events: [
+                    { time: '全日', title: '峇里島地中海俱樂部 Club Med Bali', desc: '放鬆日', type: 'hotel', icon: 'fa-hotel', address: 'Lot 6, Nusa Dua, Bali, Indonesia 80361', phone: '+62 361 771521', image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '活動', title: '沙灘酒吧 Beach Bar', desc: '無限暢飲，享受海風', type: 'relax', icon: 'fa-martini-glass-citrus', address: 'Club Med Bali Beach Area', phone: '+62 361 771521', image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1200&q=80' }
+                ]
+            },
+            {
+                day: 4,
+                date: '2/17（二）',
+                subtitle: '移動至水明漾 Seminyak',
+                events: [
+                    { time: '11:00', title: 'Club Med Bali 退房', desc: '包車接送（約50分鐘）', type: 'transport', icon: 'fa-right-from-bracket', iconFixed: 'fa-hotel', colorFixed: 'text-indigo-500', address: 'Lot 6, Nusa Dua, Bali, Indonesia 80361', phone: '+62 361 771521 / 包車 WA +62 811 3981 2229', amount: '包車 IDR450K（約 NT845）', image: 'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '12:00', title: '峇里島水明漾萬怡度假村 Check-in', desc: 'Courtyard by Marriott Bali Seminyak Resort', type: 'hotel', icon: 'fa-hotel', address: 'Seminyak, Kuta, Badung Regency, Bali', phone: '待補', image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '13:00', title: 'Zanti Spa（90分鐘）', desc: '放鬆按摩', type: 'relax', icon: 'fa-spa', address: 'Courtyard by Marriott Bali Seminyak Resort 內', phone: '待補', amount: 'IDR295K x1；IDR585K x6；總計 IDR3,805K（折價後）', image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '17:00', title: '雙六海灘 Double Six Beach', desc: '步行前往看夕陽', type: 'sight', icon: 'fa-umbrella-beach', iconFixed: 'fa-location-dot', colorFixed: 'text-emerald-500', address: 'Double Six Beach, Seminyak, Bali', phone: '公共海灘（無固定電話）', image: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '18:30', title: 'Chez Gado Gado 晚餐', desc: '海景晚餐（Live Band）', type: 'food', icon: 'fa-utensils', address: 'Jl. Camplung Tanduk No.99, Seminyak, Bali', phone: '待補', image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '20:30', title: '步行回飯店 Walk Back', desc: '結束一天', type: 'transport', icon: 'fa-person-walking', address: 'Seminyak Area', phone: '-', image: 'https://images.unsplash.com/photo-1501554728187-ce583db33af7?auto=format&fit=crop&w=1200&q=80' }
+                ]
+            },
+            {
+                day: 5,
+                date: '2/18（三）',
+                subtitle: '世界遺產一日遊',
+                events: [
+                    { time: '10:00', title: '飯店出發 Hotel Departure', desc: '包車 10 小時（車程約 1 小時）', type: 'transport', icon: 'fa-car', address: 'Courtyard by Marriott Bali Seminyak Resort', phone: '包車司機：待補', amount: '包車 IDR1550K（約 NT2900）', image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '11:15', title: '孟威王廟 Taman Ayun Temple', desc: '停留約 1 小時', type: 'sight', icon: 'fa-landmark', address: 'Jl. Ayodya No.10, Mengwi, Bali', phone: '景區資訊以現場公告為準', amount: '門票 IDR30K / 人', image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Taman%20Ayun%20temple.jpg', realImage: true },
+                    { time: '12:15', title: '出發前往梯田 Depart to Jatiluwih', desc: '車程約 1 小時 15 分', type: 'transport', icon: 'fa-car', address: 'Mengwi -> Jatiluwih, Bali', phone: '包車司機：待補', image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '13:30', title: '嘉狄盧維梯田 Jatiluwih Rice Terrace', desc: '停留約 2.5 小時 / 午餐 Jutiluwid Restro', type: 'sight', icon: 'fa-mountain', iconFixed: 'fa-location-dot', colorFixed: 'text-emerald-500', iconExtra: 'fa-utensils', colorExtra: 'text-yellow-500', iconNudgeLeft: true, address: 'Jatiluwih, Penebel, Tabanan Regency, Bali', phone: '景區資訊以現場公告為準', amount: '門票 IDR50K / 人', image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Jatiluwih%20rice%20terraces%20SF0001.jpg', realImage: true },
+                    { time: '16:00', title: '出發前往海神廟 Depart to Tanah Lot', desc: '車程約 1 小時 30 分', type: 'transport', icon: 'fa-car', address: 'Jatiluwih -> Tanah Lot, Bali', phone: '包車司機：待補', image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '17:30', title: '海神廟 Tanah Lot Temple', desc: '入場參觀 / 18:10 日落 Sunset', type: 'sight', icon: 'fa-camera-retro', address: 'Beraban, Kediri, Tabanan Regency, Bali', phone: '景區資訊以現場公告為準', amount: '門票 IDR75K / 人', image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Tanah%20Lot%20Temple%20(7070544259).jpg', realImage: true },
+                    { time: '18:45', title: '出發到餐廳 Depart to Restaurant', desc: '車程約 1 小時', type: 'transport', icon: 'fa-car', address: 'Tanah Lot -> Petitenget, Seminyak', phone: '包車司機：待補', image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '19:45', title: '班布餐廳 Bambu Petitenget', desc: 'Fine Indonesian Dining', type: 'food', icon: 'fa-utensils', address: 'Jl. Petitenget No.198, Kerobokan Kelod, Bali', phone: 'WA +62 819 0105 1999', image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '餐後', title: '返回萬怡度假村 Courtyard Seminyak', desc: '車程約 15 分鐘', type: 'transport', icon: 'fa-van-shuttle', iconFixed: 'fa-hotel', colorFixed: 'text-indigo-500', address: 'Seminyak, Bali', phone: '包車司機：待補', image: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1200&q=80' }
+                ]
+            },
+            {
+                day: 6,
+                date: '2/19（四）',
+                subtitle: '時尚街區漫遊',
+                events: [
+                    { time: '上午', title: '水明漾街區 Seminyak 散策', desc: 'Nyaman Gallery / Jln Raya Seminyak', type: 'shopping', icon: 'fa-store', address: 'Nyaman Gallery, Seminyak, Bali', phone: '待補', image: 'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '午餐', title: 'Eat Street / Jalan Kayu Aya', desc: 'Flea Street 一帶自由覓食', type: 'food', icon: 'fa-utensils', address: 'Jalan Kayu Aya, Seminyak, Bali', phone: '依餐廳為準', image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '下午', title: 'Seminyak Village + Pura Petitenget', desc: '購物與順遊景點', type: 'shopping', icon: 'fa-bag-shopping', address: 'Seminyak Village Mall, Seminyak, Bali', phone: '待補', image: 'https://images.unsplash.com/photo-1481437156560-3205f6a55735?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '18:00', title: '晚餐 Dinner（需預定）', desc: 'Kilo Kitchen Seminyak 或 La Lucciola', type: 'food', icon: 'fa-utensils', address: 'Jalan Kayu Aya / Petitenget Area, Seminyak', phone: '依餐廳訂位資訊為準', image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=80' }
+                ]
+            },
+            {
+                day: 7,
+                date: '2/20（五）',
+                subtitle: '滿載而歸',
+                events: [
+                    { time: '11:00', title: '飯店退房 Hotel Check-out', desc: '寄放行李 / 最後採買', type: 'hotel', icon: 'fa-right-from-bracket', address: 'Courtyard by Marriott Bali Seminyak Resort', phone: '待補', image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '13:00', title: '前往機場 Transfer to Airport', desc: '包車送機至 DPS（300K IDR）', type: 'transport', icon: 'fa-van-shuttle', address: 'Seminyak -> Ngurah Rai International Airport', phone: '包車司機：待補', amount: 'IDR300K（約 NT565）', image: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '13:45', title: '抵達 DPS 機場', desc: 'Ngurah Rai International Airport / 辦理登機', type: 'transport', icon: 'fa-plane-arrival', iconFixed: 'fa-car', address: 'Jl. Airport Ngurah Rai, Tuban, Kuta, Bali', phone: '+62 361 751011', image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Ngurah%20Rai%20Airport%20-%20Bali.jpg', realImage: true },
+                    { time: '16:20', title: '峇裡島 Bali 起飛', desc: '長榮 BR256', type: 'transport', icon: 'fa-plane-departure', address: 'DPS T1, Bali', phone: '+62 361 751011', image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80' },
+                    { time: '21:45', title: '抵達桃園 TPE T2', desc: 'Taiwan Taoyuan International Airport / 行程結束', type: 'transport', icon: 'fa-plane-arrival', address: 'No. 9, Hangzhan S Rd, Dayuan District, Taoyuan City', phone: '+886 3 273 5086', image: 'https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?auto=format&fit=crop&w=1200&q=80' }
+                ]
+            }
+        ];
+
+        const itinerary = document.getElementById('itinerary');
+
+        function getEventIcon(event) {
+            if (event.iconFixed) return event.iconFixed;
+            const text = `${event.title} ${event.desc}`.toLowerCase();
+            const isCar = /車|包車|接機|送機|transfer|shuttle|前往/.test(text);
+            const isFlight = /飛|flight|plane|airport|機場|dps|tpe|起飛|航班|br\\d+/.test(text);
+            const isHotel = /hotel|resort|check-in|check out|check-out|入住|退房|飯店|club med|courtyard/.test(text);
+            const isFood = /晚餐|午餐|餐廳|eat|kitchen|lucciola|bambu|gado|food|dinner|lunch/.test(text) || event.type === 'food';
+
+            if (isCar) return 'fa-car';
+            if (isFlight) return 'fa-plane';
+            if (isHotel) return 'fa-hotel';
+            if (isFood) return 'fa-utensils';
+            return 'fa-location-dot';
+        }
+
+        function getEventColor(event) {
+            if (event.colorFixed) return event.colorFixed;
+            const text = `${event.title} ${event.desc}`.toLowerCase();
+            const isCar = /車|包車|接機|送機|transfer|shuttle|前往/.test(text);
+            const isFlight = /飛|flight|plane|airport|機場|dps|tpe|起飛|航班|br\\d+/.test(text);
+            const isHotel = /hotel|resort|check-in|check out|check-out|入住|退房|飯店|club med|courtyard/.test(text);
+            const isFood = /晚餐|午餐|餐廳|eat|kitchen|lucciola|bambu|gado|food|dinner|lunch/.test(text) || event.type === 'food';
+
+            if (isCar || isFlight) return 'text-sky-500';
+            if (isHotel) return 'text-indigo-500';
+            if (isFood) return 'text-yellow-500';
+            return 'text-emerald-500';
+        }
+
+        function getEventIconHtml(event) {
+            const main = `<span class="inline-block"><i class="fa-solid ${getEventIcon(event)} ${getEventColor(event)} dot-icon"></i></span>`;
+            if (!event.iconExtra) return main;
+            const extraColor = event.colorExtra || 'text-yellow-500';
+            const extraLeft = event.iconNudgeLeft ? '-left-3' : 'left-4';
+            const extra = `<span class="absolute ${extraLeft} top-1/2 -translate-y-1/2"><i class="fa-solid ${event.iconExtra} ${extraColor} dot-icon"></i></span>`;
+            return `${main}${extra}`;
+        }
+
+        data.forEach(d => {
+            const section = document.createElement('section');
+            section.id = `day${d.day}`;
+            section.className = 'day-card bg-white rounded-3xl shadow-xl overflow-hidden';
+
+            const eventsHtml = d.events.map(e => `
+                <div class="timeline-item relative pl-12">
+                    <div class="event-main flex items-center gap-3 hover:bg-gray-50 rounded-lg p-2 -m-2 transition">
+                        <div class="w-5 text-center relative">
+                            ${getEventIconHtml(e)}
+                        </div>
+                        <span class="text-sm font-bold text-gray-700 w-20">${e.time}</span>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-bold text-lg">${e.title}</p>
+                            <p class="text-gray-500 text-sm">${e.desc}</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-down text-gray-400 ml-2"></i>
+                    </div>
+                    <div class="detail-box mt-3 bg-gray-50 border border-gray-200 rounded-xl p-4">
+                        <div class="grid md:grid-cols-2 gap-3 text-sm">
+                            <p><span class="font-semibold">地址 Address：</span>${e.address}</p>
+                            ${/\\+\\d[\\d\\s]{5,}/.test(e.phone || '') ? `<p><span class="font-semibold">電話 Phone：</span>${e.phone}</p>` : ''}
+                            ${e.amount ? `<p class="md:col-span-2"><span class="font-semibold">金額 Cost：</span>${e.amount}</p>` : ''}
+                        </div>
+                        ${e.realImage === true ? `<img src="${e.image}" alt="${e.title}" class="mt-3 w-full h-44 object-cover rounded-lg border">` : ''}
+                    </div>
+                </div>
+            `).join('');
+
+            section.innerHTML = `
+                <div class="${dayHeaderStyle[d.day]} p-6 text-white flex justify-between items-center">
+                    <div>
+                        <h2 class="text-2xl font-bold">DAY ${d.day}｜${d.date}</h2>
+                        <p class="opacity-90">${d.subtitle}</p>
+                    </div>
+                    <i class="fa-solid ${dayIcon[d.day]} text-3xl opacity-50"></i>
+                </div>
+                <div class="p-6 relative time-line space-y-8">${eventsHtml}</div>
+            `;
+
+            itinerary.appendChild(section);
+        });
+
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('open');
+                const icon = item.querySelector('.event-main .fa-chevron-down');
+                icon.classList.toggle('rotate-180');
+            });
+        });
+
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                const offset = 80;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - offset;
+
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
