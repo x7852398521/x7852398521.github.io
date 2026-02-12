@@ -260,12 +260,12 @@
             section.className = 'day-card bg-white rounded-3xl shadow-xl overflow-hidden';
 
             const eventsHtml = d.events.map(e => `
-                <div class="timeline-item relative pl-12">
-                    <div class="event-main flex items-center gap-3 hover:bg-gray-50 rounded-lg p-2 -m-2 transition">
-                        <div class="w-5 text-center relative">
+                <div class="timeline-item relative pl-8 md:pl-12">
+                    <div class="event-main flex items-center gap-2 md:gap-3 hover:bg-gray-50 rounded-lg p-1.5 md:p-2 -m-1.5 md:-m-2 transition">
+                        <div class="w-4 md:w-5 text-center relative">
                             ${getEventIconHtml(e)}
                         </div>
-                        <span class="text-sm font-bold text-gray-700 w-20">${e.time}</span>
+                        <span class="text-sm font-bold text-gray-700 w-14 md:w-20">${e.time}</span>
                         <div class="flex-1 min-w-0">
                             <p class="font-bold text-lg">${e.title}</p>
                             <p class="text-gray-500 text-sm">${e.desc}</p>
